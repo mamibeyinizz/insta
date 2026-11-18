@@ -512,13 +512,21 @@ function drawScene(t) {
 const snap = document.getElementById('snap'), snapCtx = snap.getContext('2d');
 const handleEl = document.getElementById('handle');
 const LOOP_FADE = 0.5;
+/* aura alt kenarının ekran y'si (kabaca): altyazı scrim'i aura bindiğinde koyulaşır */
+function auraBottomPx(t) {
+  const F = fieldF(t), px = y => (1 - new THREE.Vector3(0, y, 0).project(camera).y) * H / 2;
+  return Math.max(px(CY - (shellRy(NL - 1) * F * 1.04 + 0.05)), px(CY - 1.45 * F * 1.05), px(0));
+}
 window.frame = function (t) {
   const k = clamp((t - (DURATION - LOOP_FADE)) / (LOOP_FADE - 1 / 30), 0, 1);
+  let yb;
   if (k > 0) {
-    drawScene(t); snapCtx.clearRect(0, 0, W, H); snapCtx.drawImage(canvas, 0, 0);
+    drawScene(t); yb = auraBottomPx(t); snapCtx.clearRect(0, 0, W, H); snapCtx.drawImage(canvas, 0, 0);
     drawScene(0); snap.style.opacity = 1 - k * k * (3 - 2 * k);
-  } else { snap.style.opacity = 0; drawScene(t); }
+  } else { snap.style.opacity = 0; drawScene(t); yb = auraBottomPx(t); }
   handleEl.style.opacity = NOCAP ? 0 : 0.9;
   setCaption(t);
+  const top = capIn.getBoundingClientRect().top;
+  capIn.style.setProperty('--sa', (0.58 + 0.28 * sstep(top - 70, top + 20, yb)).toFixed(3));   // aura bindiğinde %86'ya kadar
 };
 window.ready = true;

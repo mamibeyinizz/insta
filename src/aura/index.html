@@ -6,7 +6,7 @@ html,body{margin:0;padding:0;background:#04030a;overflow:hidden;width:1080px;hei
 /* Meta Reels güvenli bölge: üst 270 / alt 672 / yan 65 px. Altyazı metni alt kenarı ~y=1145, scrim alt kenarı 1192; handle y 1200-1235. */
 #cap{position:absolute;z-index:5;isolation:isolate;left:0;width:1080px;bottom:728px;display:flex;justify-content:center;opacity:0}
 #capin{position:relative;box-sizing:content-box;max-width:760px;padding:46px 80px;text-align:center;font-family:Inter,'DejaVu Sans',sans-serif;font-weight:700;font-size:50px;line-height:1.24;color:#fff;letter-spacing:-.005em;text-shadow:0 2px 10px rgba(0,0,0,.85),0 0 24px rgba(0,0,0,.55)}
-#capin::before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;z-index:-1;background:rgba(0,0,0,.86);
+#capin::before{content:'';position:absolute;left:0;right:0;top:0;bottom:0;z-index:-1;background:rgba(0,0,0,var(--sa,.6));
   -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 11%,#000 86%,transparent 100%),linear-gradient(to right,transparent 0,#000 11%,#000 89%,transparent 100%);
   -webkit-mask-composite:source-in;mask-composite:intersect;mask-image:linear-gradient(to bottom,transparent 0,#000 11%,#000 86%,transparent 100%),linear-gradient(to right,transparent 0,#000 11%,#000 89%,transparent 100%)}
 #capin span{opacity:.64}
