@@ -13,8 +13,9 @@ noiseL = "anoisesrc=d=%g:c=pink:r=48000:a=0.5:seed=11,lowpass=f=500,lowpass=f=42
 noiseR = "anoisesrc=d=%g:c=pink:r=48000:a=0.5:seed=23,lowpass=f=500,lowpass=f=420" % D
 PAD_DB = float(sys.argv[4]) if len(sys.argv) > 4 else -26
 fc = (f"{tonal}[t];{noiseL}[nl];{noiseR}[nr];[nl][nr]join=inputs=2:channel_layout=stereo[ns];"
-      f"[t]volume=0.6[t2];[ns]volume=1.0[ns2];[t2][ns2]amix=inputs=2:normalize=0,highpass=f=35,volume={PAD_DB}dB[pad];"
-      f"[0:a]aresample=48000,acompressor=threshold=-21dB:ratio=2.4:attack=8:release=140:makeup=1,pan=stereo|c0=c0|c1=c0,apad=whole_dur={D}[nr_];"
+      f"[t]volume=0.6[t2];[ns]volume=1.0[ns2];[t2][ns2]amix=inputs=2:normalize=0,highpass=f=35,volume={PAD_DB}dB[pad0];"
+      f"[0:a]aresample=48000,acompressor=threshold=-21dB:ratio=2.4:attack=8:release=140:makeup=1,pan=stereo|c0=c0|c1=c0,apad=whole_dur={D},asplit=2[nr_][key];"
+      f"[pad0][key]sidechaincompress=threshold=0.02:ratio=3:attack=20:release=160:makeup=1[pad];"
       f"[nr_][pad]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.80:attack=4:release=70:level=false[mix]")
 run(FF + ['-i', narr, '-filter_complex', fc, '-map', '[mix]', '-ar', '48000', '-c:a', 'pcm_f32le', out_wav + '.pre.wav'])
 TP = -2.0

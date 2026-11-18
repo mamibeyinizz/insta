@@ -43,8 +43,9 @@ const CH_Y = [0.24, 0.47, 0.72, 0.95, 1.14, 1.55, 1.82];
 const CH_Z = [0.2, 0.25, 0.27, 0.28, 0.2, 0.2, 0.0];
 
 /* alan ölçeği (daralıp-genişleme) */
-const FKF = [[0, 0.15], [3.5, 0.92], [8, 1.0], [11.9, 1.0], [12.4, 0.97], [12.92, 0.5], [13.85, 1.36], [16.75, 1.36], [17.2, 1.3],
-[20.5, 1.3], [21.9, 1.2], [22.8, 1.05], [23.5, 0.95], [24.9, 0.85], [26.3, 0.8], [32.1, 0.52], [33.4, 0.55], [35.9, 1.3], [36.9, 1.36], [39.4, 1.46]];
+const F0 = parseFloat(QS.get('f0') || '1.5');   // başlangıç alan ölçeği: ilk 3 sn'de aura kare yüksekliğinin >=%30'u
+const FKF = [[0, F0 * 1.07], [3.8, F0 * 1.07], [5.2, F0], [8, F0], [11.9, F0], [12.4, F0 * 0.93], [12.92, 0.55], [13.85, 1.4], [16.75, 1.4], [17.2, 1.32],
+[20.5, 1.3], [21.9, 1.2], [22.8, 1.05], [23.5, 0.95], [24.9, 0.85], [26.3, 0.8], [32.1, 0.52], [33.4, 0.55], [35.9, 1.3], [36.9, 1.36], [39.4, 1.4]];
 const INNER_T = [17.124, 17.972, 18.69, 19.5];   // duyguların / anıların / düşüncelerin / dürtülerin
 const DIRT = [[25.3, 0], [26.4, 0.04], [26.72, 0.3], [27.99, 0.55], [29.12, 0.72], [30.03, 0.9], [31.0, 1.0], [41.5, 1.0]];
 const PRESS = [[20.5, 0], [21.9, 0.2], [22.0, 0.5], [22.8, 0.35], [23.5, 0.6], [24.9, 0.75], [25.4, 0.15], [26.2, 0]];
@@ -61,7 +62,8 @@ const SH = {
   uCenterW: { value: new THREE.Vector3(0, CY, 0) }, uPress: { value: 0 }, uPxS: { value: PXS * SC.S },
   uRip: { value: Array.from({ length: 6 }, () => new THREE.Vector4(0, 1, 0, -10)) },
 };
-const shellRx = i => 0.72 + 0.085 * i, shellRy = i => (0.72 + 0.085 * i) * 1.42;
+const ASP = parseFloat(QS.get('asp') || '1.2');
+const shellRx = i => 0.72 + 0.085 * i, shellRy = i => (0.72 + 0.085 * i) * ASP;
 
 /* ---------- arka plan ---------- */
 {
@@ -212,7 +214,7 @@ let lineMat;
     vertexShader: `attribute vec4 aP; uniform float uT,uScale,uLine,uSpeed,uDirt,uMixL,uCy,uPxS,uLinePx; varying float vA; varying vec3 vCol;
       void main(){ float L=aP.x,phi=aP.y,th=aP.z,id=aP.w; float s=sin(th);
         float r=L*s*s*uScale; r*=1.+uDirt*.1*sin(th*9.+uT*2.+phi*3.);
-        vec3 q=vec3(r*s*cos(phi),uCy+r*cos(th)*2.5,r*s*sin(phi));
+        vec3 q=vec3(r*s*cos(phi),uCy+r*cos(th)*2.2,r*s*sin(phi));
         float ph=fract(th/3.14159*1.2-uT*uSpeed+phi*.16+id*.21);
         float pulse=smoothstep(0.,.14,ph)*(1.-smoothstep(.14,.55,ph));
         vA=uLine*(.12+.88*pulse)*smoothstep(.04,.22,r)*(1.-.55*uDirt);
@@ -359,7 +361,7 @@ function setCaption(t) {
 
 /* ---------- ana kare ---------- */
 const tmpV = new THREE.Vector3();
-window.frame = function (t) {
+function drawScene(t) {
   SH.uT.value = t;
   const F = fieldF(t), D = kf(DIRT, t), P = kf(PRESS, t), S = kf(SHIELD, t), wR = waveR(t);
   const cleanK = sstep(WAVE_T0, WAVE_T0 + WAVE_DUR, t);
@@ -370,7 +372,7 @@ window.frame = function (t) {
 
   /* katmanlar */
   shells.forEach((m, i) => {
-    const rev = sstep(0.35 + 0.38 * i, 1.2 + 0.38 * i, t);
+    const rev = 0.55 + 0.45 * sstep(0.0, 1.5 + 0.25 * i, t);
     m.uniforms.uAlpha.value = rev * (0.5 + 0.06 * i) * (0.9 + 0.1 * Math.sin(t * 2 + i));
     m.uniforms.uMix.value = sstep(T.C[0] + 0.05 + 0.38 * i, T.C[0] + 0.6 + 0.38 * i, t);
     m.uniforms.uRad.value.set(shellRx(i) * F, shellRy(i) * F);
@@ -378,7 +380,7 @@ window.frame = function (t) {
   });
   sludge.forEach(s => { s.mat.uniforms.uRad.value.set(shellRx(s.idx) * F * 1.03, shellRy(s.idx) * F * 1.03); });
   /* kalkan */
-  shieldMat.uniforms.uRad.value.set(shellRx(NL - 1) * F * 1.1 + 0.08, shellRy(NL - 1) * F * 1.1 + 0.1);
+  shieldMat.uniforms.uRad.value.set(shellRx(NL - 1) * F * 1.04 + 0.04, shellRy(NL - 1) * F * 1.04 + 0.05);
   shieldMat.uniforms.uShield.value = S; shieldMat.uniforms.uGold.value = gold;
   const act = hits.filter(h => t > h.t && t - h.t < 1.5).slice(-6);
   const rip = SH.uRip.value; for (let i = 0; i < 6; i++) { const h = act[i]; if (h) rip[i].set(h.d[0], h.d[1], h.d[2], h.t); else rip[i].set(0, 1, 0, -10); }
@@ -399,7 +401,7 @@ window.frame = function (t) {
   bodyMat.uniforms.uHeartCol.value.set(1, lerp(.45, .78, gold), lerp(.55, .35, gold));
   /* dalga küresi */
   waveMat.uniforms.uK.value = wR > 0 ? (1 - sstep(WAVE_T0 + 1.9, WAVE_T0 + WAVE_DUR + 0.2, t)) * 1.0 : 0;
-  waveMat.uniforms.uRadius.value = clamp(wR, 0.01, 2.7);
+  waveMat.uniforms.uRadius.value = clamp(wR, 0.01, 2.15);
 
   /* frekans halkaları */
   const fa = sstep(23.4, 23.8, t) * (1 - sstep(24.6, 25.1, t));
@@ -503,8 +505,20 @@ window.frame = function (t) {
   flush(ADD); flush(DARK); flush(GLOW);
 
   /* ---- DOM ---- */
-  setCaption(t);
   if (BGONLY) scene.children.forEach(c => { if (c !== SH.bgMesh) c.visible = false; });
   renderer.render(scene, camera);
+}
+/* kare: sahne + altyazı; son 0.5 sn'de aura, t=0 durumuna crossfade (döngü) */
+const snap = document.getElementById('snap'), snapCtx = snap.getContext('2d');
+const handleEl = document.getElementById('handle');
+const LOOP_FADE = 0.5;
+window.frame = function (t) {
+  const k = clamp((t - (DURATION - LOOP_FADE)) / (LOOP_FADE - 1 / 30), 0, 1);
+  if (k > 0) {
+    drawScene(t); snapCtx.clearRect(0, 0, W, H); snapCtx.drawImage(canvas, 0, 0);
+    drawScene(0); snap.style.opacity = 1 - k * k * (3 - 2 * k);
+  } else { snap.style.opacity = 0; drawScene(t); }
+  handleEl.style.opacity = NOCAP ? 0 : 0.9;
+  setCaption(t);
 };
 window.ready = true;
