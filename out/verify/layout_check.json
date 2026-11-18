@@ -1,0 +1,222 @@
+{
+ "segs": [
+  {
+   "seg": 0,
+   "a": 0,
+   "b": 3.525,
+   "text": "Spiritüel anlayışa göre her canlının bir aurası vardır.",
+   "lines": 2,
+   "textW": 629,
+   "textLeft": 226,
+   "textRight": 854,
+   "textTop": 1077,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    1030,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 1,
+   "a": 3.904,
+   "b": 8.099,
+   "text": "Aura, bedeni saran manyetik bir alandır ve bir zırh gibi seni korur.",
+   "lines": 3,
+   "textW": 708,
+   "textLeft": 186,
+   "textRight": 894,
+   "textTop": 1015,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    968,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 2,
+   "a": 8.518,
+   "b": 11.566,
+   "text": "Renkleri, taşıdığın enerjiyi ve duyguları yansıtır.",
+   "lines": 2,
+   "textW": 695,
+   "textLeft": 193,
+   "textRight": 887,
+   "textTop": 1077,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    1030,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 3,
+   "a": 11.96,
+   "b": 13.791,
+   "text": "Bu alan daralıp genişleyebilir.",
+   "lines": 1,
+   "textW": 704,
+   "textLeft": 188,
+   "textRight": 892,
+   "textTop": 1139,
+   "textBottom": 1199,
+   "scrim": [
+    108,
+    1092,
+    972,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 4,
+   "a": 14.165,
+   "b": 16.774,
+   "text": "Genişliğini önce içerideki dünyan belirler:",
+   "lines": 2,
+   "textW": 606,
+   "textLeft": 237,
+   "textRight": 843,
+   "textTop": 1077,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    1030,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 5,
+   "a": 17.129,
+   "b": 20.172,
+   "text": "duyguların, anıların, düşüncelerin ve dürtülerin.",
+   "lines": 2,
+   "textW": 656,
+   "textLeft": 212,
+   "textRight": 868,
+   "textTop": 1077,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    1030,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 6,
+   "a": 20.526,
+   "b": 24.936,
+   "text": "Sonra dışarıdan gelen müdahaleler, enerjiler ve frekanslar etki eder.",
+   "lines": 3,
+   "textW": 595,
+   "textLeft": 242,
+   "textRight": 838,
+   "textTop": 1015,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    968,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 7,
+   "a": 25.325,
+   "b": 27.994,
+   "text": "İnanışa göre nazar, negatif enerjiler,",
+   "lines": 2,
+   "textW": 639,
+   "textLeft": 220,
+   "textRight": 860,
+   "textTop": 1077,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    1030,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 8,
+   "a": 28.208,
+   "b": 32.154,
+   "text": "varlık etkileri ve hastalıkların enerjisel izleri bu alanda birikir.",
+   "lines": 2,
+   "textW": 750,
+   "textLeft": 165,
+   "textRight": 915,
+   "textTop": 1077,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    1030,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 9,
+   "a": 32.494,
+   "b": 36.52,
+   "text": "Ama bu tortuları, belirli spiritüel çalışmalarla temizlemek mümkündür.",
+   "lines": 3,
+   "textW": 600,
+   "textLeft": 240,
+   "textRight": 840,
+   "textTop": 1015,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    968,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  },
+  {
+   "seg": 10,
+   "a": 36.849,
+   "b": 39.273,
+   "text": "Çünkü temiz bir alan, güçlü bir zırhtır.",
+   "lines": 2,
+   "textW": 732,
+   "textLeft": 174,
+   "textRight": 906,
+   "textTop": 1077,
+   "textBottom": 1199,
+   "scrim": [
+    80,
+    1030,
+    1000,
+    1246
+   ],
+   "font": "50px"
+  }
+ ],
+ "disc": {
+  "left": 107,
+  "right": 973,
+  "top": 289,
+  "bottom": 323,
+  "w": 866,
+  "font": "28px",
+  "opacity": "0.92"
+ }
+}
